@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard | Learnership Portal</title>
+    <link rel="stylesheet" href="recruiter.css">
+</head>
+<body data-theme="light">
+
+    <nav class="navbar">
+        <div class="logo">SA Learnerships Portal</div>
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search opportunities...">
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="themeToggleBtn" title="Dark/Light Mode">🌙</button>
+            <ul class="nav-links">
+                <li><button class="nav-btn active" id="opportunitiesBtn">📋 My Opportunities</button></li>
+                <li><button class="nav-btn" id="applicationsBtn">📝 Applications</button></li>
+                <li><button class="nav-btn" id="notificationsBtn">🔔 Notifications</button></li>
+            </ul>
+            <div class="user-dropdown">
+                <div class="dropdown-trigger" id="dropdownTrigger">
+                    <div class="avatar">PC</div>
+                    <span class="user-name">Provider Co.</span>
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-header">
+                        <div class="avatar-large">PC</div>
+                        <div class="dropdown-header-info">
+                            <div class="dropdown-name">Provider Co.</div>
+                            <div class="dropdown-email">provider@company.co.za</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" id="profileBtn"><span class="dropdown-icon">👤</span><span>My Profile</span></a>
+                    <a href="#" class="dropdown-item" id="settingsBtn"><span class="dropdown-icon">⚙️</span><span>Settings</span></a>
+                    <a href="#" class="dropdown-item" id="privacyBtn"><span class="dropdown-icon">🔒</span><span>Privacy</span></a>
+                    <a href="#" class="dropdown-item" id="helpBtn"><span class="dropdown-icon">❓</span><span>Help & Support</span></a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" id="logoutBtn"><span class="dropdown-icon">🚪</span><span>Logout</span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome">
+            <h1>Welcome back, Provider Co. 👋</h1>
+            <p>Track your opportunities, review applications, and find the next great candidate.</p>
+        </div>
+
+        <!-- MY OPPORTUNITIES SECTION -->
+        <div id="opportunitiesSection">
+            <div class="section-header">
+                <h2>📋 My Opportunities</h2>
+                <div class="header-buttons">
+                    <div class="sort-buttons">
+                        <label>Sort by:</label>
+                        <button class="sort-btn active" id="sortByDateBtn">📅 Date (Newest)</button>
+                        <button class="sort-btn" id="sortByApplicantsBtn">👥 Applicants</button>
+                    </div>
+                    <button class="btn-secondary" id="exportJobsBtn">📎 Export CSV</button>
+                    <button class="btn-primary" id="postJobBtn">+ Post New Opportunity</button>
+                </div>
+            </div>
+            
+            <!-- Bulk Delete Bar -->
+            <div id="bulkDeleteBar" class="bulk-delete-bar" style="display: none;">
+                <span id="selectedCount">0</span> jobs selected
+                <button class="btn-danger" id="bulkDeleteBtn">🗑️ Delete Selected</button>
+                <button class="btn-secondary" id="cancelBulkBtn">Cancel</button>
+            </div>
+            
+            <div id="opportunitiesList" class="opportunities-grid">
+                <!-- Posted jobs will appear here -->
+            </div>
+            
+            <!-- Pagination -->
+            <div id="paginationControls" class="pagination-controls">
+                <button id="prevPageBtn" class="pagination-btn" disabled>◀ Previous</button>
+                <span id="pageInfo">Page 1 of 1</span>
+                <button id="nextPageBtn" class="pagination-btn" disabled>Next ▶</button>
+            </div>
+        </div>
+
+        <!-- APPLICATIONS SECTION (hidden by default) -->
+        <div id="applicationsSection" style="display: none;">
+            <div class="section-header">
+                <h2>📝 All Applications</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" id="filterAll">All</button>
+                    <button class="filter-btn" id="filterPending">Pending</button>
+                    <button class="filter-btn" id="filterReviewed">Reviewed</button>
+                </div>
+            </div>
+            <div id="applicationsList" class="applications-table">
+                <!-- Applications will appear here -->
+            </div>
+        </div>
+
+        <!-- NOTIFICATIONS SECTION (hidden by default) -->
+        <div id="notificationsSection" style="display: none;">
+            <div class="section-header">
+                <h2>🔔 Notifications</h2>
+                <button class="btn-primary" id="markAllReadBtn">Mark all as read</button>
+            </div>
+            <div id="notificationsList" class="notifications-list">
+                <!-- Notifications will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- POST JOB FORM MODAL -->
+    <div id="postJobModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Post New Opportunity</h2>
+                <span class="close-modal" id="closeModalBtn">&times;</span>
+            </div>
+            <form id="postJobForm">
+                <div class="form-group">
+                    <label>Job Title *</label>
+                    <input type="text" id="jobTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Location *</label>
+                    <input type="text" id="jobLocation" required>
+                </div>
+                <div class="form-group">
+                    <label>Stipend / Salary *</label>
+                    <input type="text" id="jobStipend" required>
+                </div>
+                <div class="form-group">
+                    <label>Duration *</label>
+                    <input type="text" id="jobDuration" required>
+                </div>
+                <div class="form-group">
+                    <label>Closing Date *</label>
+                    <input type="date" id="jobClosingDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Requirements (one per line) *</label>
+                    <textarea id="jobRequirements" rows="5" required></textarea>
+                    <small id="charCounter" class="char-counter">0 characters</small>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="jobDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="jobStatus">
+                        <option value="active">Active</option>
+                        <option value="draft">Draft (Save for later)</option>
+                    </select>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn-secondary" id="saveDraftBtn">💾 Save as Draft</button>
+                    <button type="button" class="btn-secondary" id="cancelModalBtn">Cancel</button>
+                    <button type="submit" class="btn-primary" id="submitJobBtn">Post Opportunity</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="confirmModal" class="modal confirm-modal">
+        <div class="modal-content confirm-content">
+            <div class="modal-header">
+                <h3>Confirm Action</h3>
+            </div>
+            <div class="confirm-body">
+                <p id="confirmMessage">Are you sure?</p>
+            </div>
+            <div class="form-buttons">
+                <button class="btn-secondary" id="confirmCancelBtn">Cancel</button>
+                <button class="btn-danger" id="confirmOkBtn">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SA Learnerships Portal | Connecting South African talent with opportunities</p>
+    </footer>
+
+    <script src="recruiter.js"></script>
+</body>
+</html>
